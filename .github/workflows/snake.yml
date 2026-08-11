@@ -6,11 +6,17 @@ on:
     - cron: "0 */12 * * *"
   workflow_dispatch:
 
+# FIXES EXIT CODE 128: Explicitly grants permission to write to the repository
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # FIXES DEPRECATION: Upgraded from v3 to v4
+      - uses: actions/checkout@v4
+      
       - uses: Platane/snk@v3
         id: snake-gif
         with:
@@ -19,7 +25,8 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake.gif?palette=github-dark
 
-      - uses: crazy-max/ghaction-github-pages@v3.1.0
+      # FIXES DEPRECATION: Upgraded from v3.1.0 to v5
+      - uses: crazy-max/ghaction-github-pages@v5
         with:
           target_branch: output
           build_dir: dist
